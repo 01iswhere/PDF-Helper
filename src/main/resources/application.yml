@@ -1,0 +1,53 @@
+server:
+  port: 9494
+spring:
+  application:
+    name: PDF-Helper
+  profiles:
+    active: dev
+  datasource:
+    username: ${pdf-helper.datasource.username}
+    password: ${pdf-helper.datasource.password}
+    url: ${pdf-helper.datasource.url}
+    driver-class-name: ${pdf-helper.datasource.driver-class-name}
+  data:
+    mongodb:
+      uri: ${pdf-helper.mongodb.uri}
+    redis:
+      host: ${pdf-helper.redis.host}
+      port: ${pdf-helper.redis.port}
+      database: ${pdf-helper.redis.database}
+      lettuce:
+        pool:
+          max-active: ${pdf-helper.redis.lettuce.pool.max-active}
+          max-idle: ${pdf-helper.redis.lettuce.pool.max-idle}
+          min-idle: ${pdf-helper.redis.lettuce.pool.min-idle}
+          max-wait: ${pdf-helper.redis.lettuce.pool.max-wait}
+  ai:
+    openai:
+      api-key: ${pdf-helper.ai.qwen.api-key}
+      base-url: ${pdf-helper.ai.qwen.base-url}
+      chat:
+        options:
+          model: ${pdf-helper.ai.qwen.chatModel}
+      embedding:
+        options:
+          model: ${pdf-helper.ai.qwen.embeddingModel}
+    vectorstore:
+      mongodb:
+        collection-name: ${pdf-helper.ai.vectorstore.mongodb.collection-name}
+        index-type: ${pdf-helper.ai.vectorstore.mongodb.index-type}
+        field-name: ${pdf-helper.ai.vectorstore.mongodb.field-name}
+        content-field: ${pdf-helper.ai.vectorstore.mongodb.content-field}
+        initialize-schema: true
+  jackson:
+    default-property-inclusion: non_null
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.zero1iswhere.pdfhelper.pojo.entity
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor: debug
+    com.zero1iswhere.pro4vue3: debug
