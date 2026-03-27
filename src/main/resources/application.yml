@@ -14,7 +14,7 @@ spring:
     username: ${pdf-helper.datasource.username}
     password: ${pdf-helper.datasource.password}
     url: ${pdf-helper.datasource.url}
-    driver-class-name: ${pdf-helper.datasource.driver-class-name}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
       uri: ${pdf-helper.mongodb.uri}
@@ -24,10 +24,10 @@ spring:
       database: ${pdf-helper.redis.database}
       lettuce:
         pool:
-          max-active: ${pdf-helper.redis.lettuce.pool.max-active}
-          max-idle: ${pdf-helper.redis.lettuce.pool.max-idle}
-          min-idle: ${pdf-helper.redis.lettuce.pool.min-idle}
-          max-wait: ${pdf-helper.redis.lettuce.pool.max-wait}
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
   ai:
     openai:
       api-key: ${pdf-helper.ai.qwen.api-key}
@@ -43,7 +43,7 @@ spring:
         collection-name: ${pdf-helper.ai.vectorstore.mongodb.collection-name} # 集合名称
         index-name: ${pdf-helper.ai.vectorstore.mongodb.index-name} # 索引名称
         path-name: ${pdf-helper.ai.vectorstore.mongodb.path-name} # 向量字段名称，springAI自动创建的名为embedding
-        metadata-fields-to-filter: pdfuuid,username #开启元数据过滤字段
+        metadata-fields-to-filter: pdfuuid,username # 开启元数据过滤字段
         initialize-schema: true
   jackson:
     default-property-inclusion: non_null
@@ -55,4 +55,4 @@ mybatis:
 logging:
   level:
     org.springframework.ai.chat.client.advisor: debug
-    com.zero1iswhere.pro4vue3: debug
+    com.zero1iswhere.pdfhelper: debug
