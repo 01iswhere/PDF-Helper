@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PdfService {
 
-    List<String> upload(MultipartFile file, String chatId) throws IOException;
+    String upload(MultipartFile file, String chatId) throws IOException;
 }

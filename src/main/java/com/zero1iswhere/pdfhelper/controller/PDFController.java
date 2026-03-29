@@ -23,8 +23,8 @@ public class PDFController {
 
     @Timer(name = "PDF上传")
     @PostMapping("/upload")
-    public List<String> uploadPdf(@RequestParam("file") MultipartFile file, @RequestParam("chatId") String chatId) throws IOException {
-        List<String> res = pdfService.upload(file, chatId);
+    public String uploadPdf(@RequestParam("file") MultipartFile file, @RequestParam("chatId") String chatId) throws IOException {
+        String res = pdfService.upload(file, chatId);
         return res;
     }
 }
