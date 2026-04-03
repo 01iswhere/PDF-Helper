@@ -1,7 +1,7 @@
 package com.zero1iswhere.pdfhelper.controller;
 
 import com.zero1iswhere.pdfhelper.annotation.Timer;
-import com.zero1iswhere.pdfhelper.pojo.vo.MessageVo;
+import com.zero1iswhere.pdfhelper.pojo.vo.ChatDetail;
 import com.zero1iswhere.pdfhelper.service.serviceImpl.MongoChatHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +29,8 @@ public class ChatHistoryController {
 
     @Timer(name = "用户获取会话详细ID")
     @GetMapping("/{chatId}")
-    public List<MessageVo> getChatHistory(@PathVariable("chatId") String chatId) {
-        List<MessageVo> res = chatHistoryService.getChatDetail(chatId);
+    public ChatDetail getChatHistory(@PathVariable("chatId") String chatId) {
+        ChatDetail res = chatHistoryService.getChatDetail(chatId);
         return res;
     }
 

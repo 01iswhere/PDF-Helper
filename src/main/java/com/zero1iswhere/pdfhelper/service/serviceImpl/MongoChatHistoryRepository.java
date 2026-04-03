@@ -1,15 +1,17 @@
 package com.zero1iswhere.pdfhelper.service.serviceImpl;
 
-import com.mongodb.client.MongoClient;
 import com.zero1iswhere.pdfhelper.exception.ChatMemorySaveException;
 import com.zero1iswhere.pdfhelper.mapper.UserChatMapper;
+import com.zero1iswhere.pdfhelper.pojo.vo.ChatDetail;
 import com.zero1iswhere.pdfhelper.pojo.vo.MessageVo;
 import com.zero1iswhere.pdfhelper.service.ChatHistoryRepository;
+import com.zero1iswhere.pdfhelper.utils.RedisConstant;
 import com.zero1iswhere.pdfhelper.utils.UserChatStatus;
 import com.zero1iswhere.pdfhelper.utils.UserHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ public class MongoChatHistoryRepository implements ChatHistoryRepository {
     private final UserChatMapper userChatMapper;
 
     private final ChatMemory mongoChatMemory;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     @Transactional
@@ -46,11 +50,16 @@ public class MongoChatHistoryRepository implements ChatHistoryRepository {
     }
 
     @Override
-    public List<MessageVo> getChatDetail(String chatId) {
+    public ChatDetail getChatDetail(String chatId) {
         List<Message> messages = mongoChatMemory.get(chatId);
-        List<MessageVo> res = messages.stream()
+        List<MessageVo> messageVos = messages.stream()
                 .map(MessageVo::new)
                 .collect(Collectors.toList());
+
+        String pdfUUID = (String) redisTemplate.opsForValue().get(RedisConstant.PDF_CHAT + chatId);
+        ChatDetail res = new ChatDetail();
+        res.setMessageVos(messageVos);
+        res.setPdfUUID(pdfUUID);
         return res;
     }
 }

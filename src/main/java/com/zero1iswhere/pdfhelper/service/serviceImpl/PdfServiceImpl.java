@@ -1,7 +1,6 @@
 package com.zero1iswhere.pdfhelper.service.serviceImpl;
 
 import com.zero1iswhere.pdfhelper.exception.ChatIdSaveException;
-import com.zero1iswhere.pdfhelper.exception.ChatMemorySaveException;
 import com.zero1iswhere.pdfhelper.exception.EmbeddingSaveException;
 import com.zero1iswhere.pdfhelper.service.ChatHistoryRepository;
 import com.zero1iswhere.pdfhelper.service.PdfService;
@@ -92,9 +91,9 @@ public class PdfServiceImpl implements PdfService {
 
             try {
                 // 5. 将新上传的pdf与会话关联, 存到redis中
-                //    MySQL持久化会话记录
                 redisTemplate.opsForValue().set(RedisConstant.PDF_CHAT + chatId, pdfUUID);
                 if(Boolean.FALSE.equals(chatHistoryExist)) {
+                    // MySQL持久化会话记录
                     chatHistoryRepository.save(chatId);
                 }
             } catch (Exception e) {

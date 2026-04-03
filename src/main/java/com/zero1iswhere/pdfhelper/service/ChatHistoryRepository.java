@@ -1,6 +1,6 @@
 package com.zero1iswhere.pdfhelper.service;
 
-import com.zero1iswhere.pdfhelper.pojo.vo.MessageVo;
+import com.zero1iswhere.pdfhelper.pojo.vo.ChatDetail;
 
 import java.util.List;
 
@@ -10,5 +10,6 @@ public interface ChatHistoryRepository {
 
     List<String> getChatIds();
 
-    List<MessageVo> getChatDetail(String chatId);
+    ChatDetail getChatDetail(String chatId);
+
 }
